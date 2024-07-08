@@ -1,0 +1,17 @@
+.w-email{
+    display: flex;
+}
+.user-email{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
+
+.w-user-badge:hover{
+    background-color: '#39B1AE'; 
+    color: 'white' 
+}
+.isAdmin{
+    background-color: rgb(103, 245, 160) !important;
+}

@@ -1,0 +1,40 @@
+.header-chat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 5px;
+    border-width: 4px;
+    height: var(--header-page-height);
+}
+
+.btn-search {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+
+}
+
+.btn-search:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+.search-text {
+    font-size: 16px;
+    margin-left: 4px;
+}
+
+.countNotification {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 14px;
+    height: 12px;
+    font-size: 9px;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    font-weight: 500;
+}

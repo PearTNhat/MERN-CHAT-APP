@@ -1,0 +1,10 @@
+.container-chat{
+    width: 100%;
+}
+.body-chat{
+    display: flex;
+    justify-content: space-between;
+    background: transparent;
+    padding: 4px;
+    height: var(--body-page-height);
+}
