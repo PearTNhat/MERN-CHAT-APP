@@ -161,6 +161,33 @@ const removeFormGroup = async (req, res) => {
     }
   } catch (error) {}
 };
+const leaveGroup = async (req, res) => {
+  const { groupId } = req.body;
+  if (!groupId) {
+    res.status(400).json({ message: "Can't find group" });
+  }
+  try {
+    const result = await Chat.findOneAndUpdate(
+      {
+        _id: groupId,
+        users: req.user._id,
+      },
+      {
+        $pull: { users: req.user._id },
+      },
+      {
+        new: true,
+      }
+    )
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password");
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(400).json({ message: "You are not in this group" });
+    }
+  } catch (error) {}
+};
 module.exports = {
   accessChat,
   fetchChat,
@@ -168,4 +195,5 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFormGroup,
+  leaveGroup,
 };

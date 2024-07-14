@@ -9,6 +9,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 const notificationRoute = require("./routes/notificationRoute");
 const authRoute = require("./routes/authRoute");
+const Message = require("./models/messageModule");
 require("./passport");
 const app = express();
 const corsOptions = {
@@ -31,6 +32,15 @@ const __dirname1 = path.resolve();
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "public")));
 }
+app.get("/", (req, res) => {
+  Message.deleteMany({ sender: "644687d0bde9f202c2a562d6" })
+    .then(() => {
+      res.json({ message: "Messages deleted" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 3001;
@@ -46,7 +56,6 @@ const io = require("socket.io")(sever, {
 io.on("connection", (socket) => {
   console.log("connected to socket io");
   socket.on("set-up", (userData) => {
-    console.log("connected to user  ", userData);
     // tạo 1 room mới
     socket.join(userData._id);
     //phát tín hiệu kết nối thành công (1)
@@ -55,11 +64,10 @@ io.on("connection", (socket) => {
 
   socket.on("join room", (room) => {
     socket.join(room);
-    console.log("Joined ROOM ID: " + room);
   });
 
-  socket.on("typing", (room) => {
-    socket.to(room).emit("typing");
+  socket.on("typing", ({ room, user }) => {
+    socket.to(room).emit("typing", { user });
   });
   socket.on("stop typing", (room) => {
     socket.to(room).emit("stop typing");
@@ -71,7 +79,6 @@ io.on("connection", (socket) => {
     chat.users.forEach((user) => {
       if (user._id === newMessageReceived.sender._id) return;
       socket.in(user._id).emit("message received", newMessageReceived);
-      console.log(user._id);
     });
   });
   socket.off("set-up", () => {
