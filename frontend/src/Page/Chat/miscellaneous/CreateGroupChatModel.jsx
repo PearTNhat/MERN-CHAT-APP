@@ -181,15 +181,13 @@ function CreateGroupChatModel({ children }) {
                             <p>Loading...</p>
                         ) : (
                             searchResult.length > 0 &&
-                            searchResult
-                                .slice(0, 4)
-                                .map((user) => (
-                                    <UserAvatar
-                                        key={user._id}
-                                        user={user}
-                                        onClick={() => handleAddGroup(user)}
-                                    />
-                                ))
+                            searchResult.map((user) => (
+                                <UserAvatar
+                                    key={user._id}
+                                    user={user}
+                                    onClick={() => handleAddGroup(user)}
+                                />
+                            ))
                         )}
                     </ModalBody>
                     <ModalFooter>

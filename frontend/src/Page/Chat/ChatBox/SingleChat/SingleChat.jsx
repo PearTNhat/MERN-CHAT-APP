@@ -121,14 +121,19 @@ function SingleChat() {
     // socket
     useEffect(() => {
         socket.on('message received', (newMessageReceived) => {
+            console.log('vao re');
             if (
                 selectedChatCompare &&
                 selectedChatCompare._id === newMessageReceived.chat._id
             ) {
+                console.log('set message');
                 setMessage((prev) => [...prev, newMessageReceived]);
             }
         });
-    }, []);
+        return () => {
+            socket.off('message received');
+        };
+    }, [selectChat]);
     return (
         <Box
             display={'flex'}

@@ -131,7 +131,7 @@ function UpdateGroupChatModel({ children }) {
         try {
             setLoading(true);
             const { data } = await http.put(
-                'api/chat//add-group',
+                'api/chat/add-group',
                 {
                     userId,
                     groupId: selectChat._id,

@@ -24,7 +24,7 @@ import { socket } from '../../../socket/connect';
 import { http } from '../../../utils/http';
 import UserChat from '../../../components/UserChat';
 function HeaderChat() {
-    const { user, notifications, setNotifications, setSelectChat } =
+    const { user, notifications, setNotifications, setSelectChat, setChats } =
         ChatState();
     const toast = useToast();
     const navigate = useNavigate();
@@ -34,6 +34,7 @@ function HeaderChat() {
         localStorage.removeItem('userInfo');
         setSelectChat(null);
         setNotifications([]);
+        setChats([]);
         socket.disconnect();
         navigate('/');
     };
