@@ -84,7 +84,6 @@ function HeaderChat() {
             });
         }
     };
-    console.log('noti', notifications);
     useEffect(() => {
         loadNotifications();
     }, [user.token]);

@@ -13,7 +13,6 @@ const ChatProvider = ({ children }) => {
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         setUser(userInfo);
-        console.log('zo');
     }, [navigate]);
     return (
         <ChatContext.Provider

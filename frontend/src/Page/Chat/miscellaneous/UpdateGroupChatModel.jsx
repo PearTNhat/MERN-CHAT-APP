@@ -190,6 +190,37 @@ function UpdateGroupChatModel({ children }) {
             return;
         }
     };
+    const handleLeave = async (userId) => {
+        try {
+            setLoading(true);
+            await http.put(
+                'api/chat/leave-group',
+                {
+                    groupId: selectChat._id,
+                    userId,
+                },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + user.token,
+                    },
+                },
+            );
+            setSelectChat('');
+            setFetchAgain((prev) => !prev);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+            toast({
+                title: 'Failed to leave group',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'top-right',
+            });
+            return;
+        }
+    };
     return (
         <>
             <Text
@@ -213,7 +244,7 @@ function UpdateGroupChatModel({ children }) {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Box display={'flex'}>
+                        <Box display={'flex'} flexWrap={'wrap'}>
                             {selectChat.users.map((u, i) => {
                                 return (
                                     <UserBadge
@@ -271,7 +302,7 @@ function UpdateGroupChatModel({ children }) {
                             colorScheme="red"
                             mr={3}
                             onClick={() => {
-                                handleRemoveUser(user._id);
+                                handleLeave(user._id);
                                 onClose();
                             }}
                         >

@@ -8,7 +8,6 @@ function HomePage() {
     const navigate = useNavigate();
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userInfo'));
-        console.log('zo home', user);
         if (user) {
             navigate('/chats');
         }

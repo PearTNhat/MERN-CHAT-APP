@@ -25,7 +25,6 @@ function OtherLogin() {
                     position: 'top-right',
                 });
             } catch (error) {
-                console.log(error);
                 toast({
                     description: error.response.data,
                     status: 'error',

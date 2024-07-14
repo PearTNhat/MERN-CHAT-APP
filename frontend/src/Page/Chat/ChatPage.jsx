@@ -27,7 +27,6 @@ function ChatPage() {
                 { chatId: newMessageReceived.chat._id },
                 config,
             );
-            console.log(data);
             // kiem tra trung lặp id notification k , nếu k thì thêm mới
             setNotifications((prev) => {
                 if (data.exist) {
@@ -55,6 +54,13 @@ function ChatPage() {
         socket.on('connected', () => {
             setSocketConnected(true);
         });
+    }, [user?._id]);
+    useEffect(() => {
+        if (user == null) {
+            navigate('/');
+            return;
+        }
+        // console.log('refetch select chat', selectChat);
         socket.on('message received', async (newMessageReceived) => {
             // notification
             const isRecipient = includeRecipient(
@@ -66,10 +72,14 @@ function ChatPage() {
                     selectChat._id !== newMessageReceived.chat._id) &&
                 isRecipient
             ) {
+                console.log(selectChat, newMessageReceived, isRecipient);
                 await addNotification(newMessageReceived);
             }
         });
-    }, [user?._id]);
+        return () => {
+            socket.off('message received'); // Clean up the listener
+        };
+    }, [selectChat]);
     return (
         <div className="container-chat">
             {user && <HeaderChat />}

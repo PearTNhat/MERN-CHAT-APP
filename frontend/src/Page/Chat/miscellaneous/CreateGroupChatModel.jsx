@@ -35,7 +35,6 @@ function CreateGroupChatModel({ children }) {
         }
         try {
             setLoading(true);
-            console.log(user.token);
             const config = {
                 headers: {
                     Authorization: `Bearer ${user.token}`,
@@ -80,14 +79,12 @@ function CreateGroupChatModel({ children }) {
                     Authorization: 'Bearer ' + user.token,
                 },
             };
-            console.log(groupName);
             const { data } = await http.post(
                 '/api/chat/group',
                 {
                     chatName: groupName,
                     users: JSON.stringify([
                         ...selectedUser.map((user) => user._id),
-                        user._id,
                     ]),
                 },
                 config,

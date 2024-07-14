@@ -12,7 +12,8 @@ import { ChatPageState } from '../../../Context/ChatPageProvider';
 import UserChat from '../../../components/UserChat';
 function MyChat() {
     const toast = useToast();
-    const { user, chats, setChats, selectChat, setSelectChat } = ChatState();
+    const { user, chats, setChats, selectChat, setSelectChat, notifications } =
+        ChatState();
     const { fetchAgain } = ChatPageState();
     const fetchChat = async () => {
         if (user.length === 0 || !user) return;
@@ -37,7 +38,7 @@ function MyChat() {
     };
     useEffect(() => {
         fetchChat();
-    }, [user.token, fetchAgain]);
+    }, [user.token, fetchAgain, notifications]);
     return (
         <Box
             display={{ base: selectChat ? 'none' : 'flex', md: 'flex' }}

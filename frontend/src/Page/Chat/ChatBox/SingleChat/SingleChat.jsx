@@ -28,10 +28,12 @@ function SingleChat() {
     const [, setTimeOutTyping] = useState(null);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
+    const [userTyping, setUserTyping] = useState('');
     // socket
     useEffect(() => {
-        socket.on('typing', () => {
+        socket.on('typing', ({ user }) => {
             setIsTyping(true);
+            setUserTyping(user);
         });
         socket.on('stop typing', () => {
             setIsTyping(false);
@@ -102,7 +104,7 @@ function SingleChat() {
         if (!socketConnected) return;
         if (!typing) {
             setTyping(true);
-            socket.emit('typing', selectChat._id);
+            socket.emit('typing', { room: selectChat._id, user: user });
             setTimeOutTyping((prev) => {
                 clearTimeout(prev);
                 return setTimeout(() => {
@@ -175,7 +177,7 @@ function SingleChat() {
                                 fontSize: '12px',
                                 opacity: '0.8',
                             }}
-                        >{`${user.name} is composing a  message`}</p>
+                        >{`${userTyping.name} is composing a  message`}</p>
                     </div>
                 ) : (
                     ''
